@@ -1,2 +1,5 @@
-create table forum (id int autoincrement, image varchar(200), description varchar(1000), _time integer)
+create table forum (id int autoincrement, image varchar(200), description varchar(1000), result varchar(50), _time integer)
 
+create table prediction_log (id integer primary key, image varchar(200), result varchar(50), user_id int, report varchar(100), _time integer)
+
+create table monitor(id integer primary key, image varchar(200), relation float, _time integer )
