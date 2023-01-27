@@ -1,0 +1,2 @@
+create table forum (id int autoincrement, image varchar(200), description varchar(1000), _time integer)
+
