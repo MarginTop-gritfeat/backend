@@ -11,8 +11,9 @@ disease_dict = [
     "Benign keratosis-like lesions",
     "Dermatofibroma",
     "Melanoma",
+    "Melanocytic nevi",
     "Vascular lesions",
-    "Melanocytic nevi"
+    
 ]
 
 sex_dict = [
@@ -40,7 +41,7 @@ location_dict = [
 def save_pdf(age = '', sex = -1, image = '', prediction = -1, location = -1):
     file_name = str(hash(time.time())) + '.pdf'
 
-    canvas = Canvas('pdf/' + file_name, pagesize=(300, 400))
+    canvas = Canvas('static/pdf/' + file_name, pagesize=(300, 400))
 
     canvas.setFont("Times-Roman", 30)
     canvas.setFillColor(colors.blue)

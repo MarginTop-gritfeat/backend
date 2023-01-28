@@ -12,7 +12,7 @@ import monitor as monitor_disease
 import monitoring
 import forum as _forum
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 CORS(app)
 
 
@@ -33,7 +33,7 @@ def predictdisease():
         print(age, sex, location)
         bytes_img = encode(img, 'utf-8')
         binary_img = base64.decodebytes(bytes_img)
-        image_file = 'images/' + str(hash(time.time())) + '.jpg'
+        image_file = 'static/images/' + str(hash(time.time())) + '.jpg'
         with open(image_file, "wb") as fh:
             fh.write(binary_img)
         disease, disease_num = predict_disease.predict(image_file , int(sex), int(location), int(age or 0))#, sex, location, age)
@@ -57,13 +57,18 @@ def monitor():
         # img = request.files['image']
         bytes_img = encode(img, 'utf-8')
         binary_img = base64.decodebytes(bytes_img)
-        image_file = 'images/monitor/' + str(hash(time.time())) + '.jpg'
+        image_file = 'static/images/monitor/' + str(hash(time.time())) + '.jpg'
         with open(image_file, "wb") as fh:
             fh.write(binary_img)
         relation = monitoring.monitor_disease(image_file)#, sex, location, age)
         
         # report_file = report.save_pdf(age, sex, image_file, disease, location)
         monitor_disease.store(relation = relation, image = image_file)
+        return jsonify(
+            monitor_disease.retrieve_all()
+        )
+    
+    elif request.method == 'GET':
         return jsonify(
             monitor_disease.retrieve_all()
         )
@@ -85,9 +90,9 @@ def forum():
         )
     return [0]
 
-
-# server_ip = '100.64.131.174'
-server_ip = '192.168.2.201'
+server_ip = '100.64.131.175'
+# server_ip = '192.168.43.243'
+# server_ip = '192.168.2.201'
 
 # server_ip = '127.0.0.1'
 

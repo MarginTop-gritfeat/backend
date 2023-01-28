@@ -543,7 +543,7 @@ def monitor_disease(daily_image, base_features = base_features):
   cosine = np.dot(A,B)/(norm(A)*norm(B))
   return cosine[0]
 
-# print(monitor_disease('images/1311380923053485284.jpg')[0])
+# print(str(monitor_disease('images/test.jpg') * 100) + '%')
 
 
 

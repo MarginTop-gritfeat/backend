@@ -22,7 +22,7 @@ def create_data(image = '', relation = ''):
 def store(image = '', relation = ''):
     db = sqlite3.connect('data.db')
     cursor = db.cursor()
-    data = create_data(image, relation)
+    data = create_data(image, relation * 100)
     cursor.execute('insert into monitor(id, image, relation, _time) values (?, ?, ?, ?)', data)   #pass tuple 
     # data = cursor.fetchall()
     db.commit()
@@ -34,7 +34,7 @@ def retrieve_all():
     db = sqlite3.connect('data.db')
     cursor = db.cursor()
     # data = create_data()
-    cursor.execute('select * from monitor')   #pass tuple 
+    cursor.execute('select * from monitor order by _time desc')   #pass tuple 
     data = cursor.fetchall()
     # print(data)
     # db.commit()
