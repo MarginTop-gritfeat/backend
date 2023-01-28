@@ -176,7 +176,8 @@ def predict(image, sex, location, age):
   output = model(img.unsqueeze_(0), tabular.unsqueeze_(0))
   pred, conf = output.max(-1)
   # return conf.item(), pred
-  return disease_mapper(conf.item())
+  temp = conf.item()
+  return disease_mapper(temp), temp
 
 # predict('image_path', 'sex', 'location', 'age')
 

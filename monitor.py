@@ -1,5 +1,8 @@
 import sqlite3
+# from flask import * 
 import time
+# import monitoring
+import json
 
 
 def create_data(image = '', relation = ''):
@@ -33,6 +36,7 @@ def retrieve_all():
     # data = create_data()
     cursor.execute('select * from monitor')   #pass tuple 
     data = cursor.fetchall()
+    # print(data)
     # db.commit()
     return data
 
@@ -41,4 +45,4 @@ def calculate_result():
     return 1
 
 # store()
-# print(retrieve_all())
+# print(json.dumps(retrieve_all()))

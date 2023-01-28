@@ -57,13 +57,13 @@ def save_pdf(age = '', sex = -1, image = '', prediction = -1, location = -1):
 
     canvas.drawString(40, 280, "Age: " + str(age))
 
-    canvas.drawString(40, 260, "Sex: " + sex_dict[sex])
+    canvas.drawString(40, 260, "Sex: " + sex_dict[int(sex)])
 
 
     # canvas.drawString(40, 260, "Sex: " + 'बकफमषवबकफ')
 
     if prediction >= 0:
-        location = location_dict[location]
+        location = location_dict[int(location)]
     
     else:
         location = ''
@@ -93,7 +93,7 @@ def save_pdf(age = '', sex = -1, image = '', prediction = -1, location = -1):
 
     return 'pdf/' + file_name  #return url of pdf
 
-print(save_pdf(22, 1, '', 4, 6))
+# print(save_pdf(22, 1, '', 4, 6))
 
 
 

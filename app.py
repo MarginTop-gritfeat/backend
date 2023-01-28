@@ -9,6 +9,8 @@ import base64
 import json
 import report
 import monitor as monitor_disease
+import monitoring
+import forum as _forum
 
 app = Flask(__name__)
 CORS(app)
@@ -34,9 +36,9 @@ def predictdisease():
         image_file = 'images/' + str(hash(time.time())) + '.jpg'
         with open(image_file, "wb") as fh:
             fh.write(binary_img)
-        disease = predict_disease.predict(image_file , int(sex), int(location), int(age))#, sex, location, age)
-        report_file = report.save_pdf(age, sex, image_file, disease, location)
-        log.store(result = disease, report = report_file, image = image_file)
+        disease, disease_num = predict_disease.predict(image_file , int(sex), int(location), int(age or 0))#, sex, location, age)
+        report_file = report.save_pdf(age, sex, image_file, disease_num, location)
+        log.store(result = disease_num, report = report_file, image = image_file)
         disease['report'] = report_file
         return jsonify(disease)
         # return jsonify({
@@ -51,23 +53,42 @@ def predictdisease():
 @app.route('/monitor' , methods = ['GET', 'POST'])
 def monitor():
     if request.method == 'POST':
-        # img = request.form['image']
-        # # img = request.files['image']
-        # bytes_img = encode(img, 'utf-8')
-        # binary_img = base64.decodebytes(bytes_img)
-        # image_file = 'images/monitor/' + str(hash(time.time())) + '.jpg'
-        # with open(image_file, "wb") as fh:
-        #     fh.write(binary_img)
-        # relation = monitor_disease.predict(image_file)#, sex, location, age)
+        img = request.form['image']
+        # img = request.files['image']
+        bytes_img = encode(img, 'utf-8')
+        binary_img = base64.decodebytes(bytes_img)
+        image_file = 'images/monitor/' + str(hash(time.time())) + '.jpg'
+        with open(image_file, "wb") as fh:
+            fh.write(binary_img)
+        relation = monitoring.monitor_disease(image_file)#, sex, location, age)
         
         # report_file = report.save_pdf(age, sex, image_file, disease, location)
-        monitor_disease.store(relation = 'relation', image = 'image_file')
-        return jsonify({
+        monitor_disease.store(relation = relation, image = image_file)
+        return jsonify(
             monitor_disease.retrieve_all()
-        })
+        )
     return [0]
 
-server_ip = '100.64.131.174'
+@app.route('/forum' , methods = ['GET', 'POST'])
+def forum():
+    if request.method == 'POST':
+        description = request.form['description']
+        
+        # report_file = report.save_pdf(age, sex, image_file, disease, location)
+
+        return [_forum.store(description)]
+
+    else:
+        data = _forum.retrieve_all()
+        return jsonify(
+            data
+        )
+    return [0]
+
+
+# server_ip = '100.64.131.174'
+server_ip = '192.168.2.201'
+
 # server_ip = '127.0.0.1'
 
 if __name__ == "__main__":
